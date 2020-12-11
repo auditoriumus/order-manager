@@ -14,7 +14,7 @@ class AddFieldMenuToOrdersTable extends Migration
     public function up()
     {
         Schema::table('orders', function (Blueprint $table) {
-            $table->text('menu')->nullable();
+            $table->json('menu')->nullable();
         });
     }
 
