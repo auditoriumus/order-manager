@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\Orders\OrderControler;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,3 +22,5 @@ Route::get('/profile', function () {
 })->middleware(['auth'])->name('profile');
 
 require __DIR__.'/auth.php';
+
+Route::resource('order', OrderControler::class);

@@ -19,7 +19,19 @@ class CreateOrdersTable extends Migration
                 ->nullable();
             $table->unsignedBigInteger('table_id')
                 ->nullable();
+            $table->json('menu')->nullable();
+            $table->softDeletes();
             $table->timestamps();
+
+            $table->foreign('user_id')
+                ->references('id')
+                ->on('users');
+
+            $table->foreign('table_id')
+                ->references('id')
+                ->on('tables');
+
+            $table->unsignedInteger('total')->nullable();
         });
     }
 

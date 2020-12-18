@@ -5,11 +5,37 @@
         @foreach($orders as $order)
             <div class="card border-secondary m-3">
                 <div class="card-header">
-                    <p class="fw-light">Заказ: {{ $order->id }} | Дальний слева | Сотрудник: Александр | 12.11.2020</p>
+                    <div class="fw-light">
+                        <form action="{{ route('order.destroy', $order->id) }}" method="POST">
+                            @csrf
+                            <a href="{{ route('order.edit', $order->id) }}" class="btn btn-outline-primary">Изменить</a>
+                            <input type="hidden" name="_method" value="delete" />
+                            <button type="submit" class="btn btn-outline-danger">Удалить</button>
+                        </form>
+                        Заказ: {{ $order->id }} | {{ $order->table->title }}  | Сотрудник: {{ $order->user->name }}  | {{ $order->created_at }}
+                    </div>
                 </div>
                 <div class="card-body text-secondary">
-                    <h5 class="card-title">Secondary card title</h5>
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    @if($order->menu)
+                        <table class="table table-striped">
+                            <tbody>
+                                @foreach($order->menu as $menuItem)
+                                    <tr>
+                                        <th scope="row">{{ $menuItem->good }}</th>
+                                        <td>{{ $menuItem->count }}</td>
+                                        <td>{{ $menuItem->price }}</td>
+                                    </tr>
+                                @endforeach
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td class="total_price">
+                                        {{ $order->total }}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    @endif
                 </div>
             </div>
         @endforeach

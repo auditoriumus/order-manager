@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddFieldMenuToOrdersTable extends Migration
+class CreateTablesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,11 @@ class AddFieldMenuToOrdersTable extends Migration
      */
     public function up()
     {
-        Schema::table('orders', function (Blueprint $table) {
-            $table->json('menu')->nullable();
+        Schema::create('tables', function (Blueprint $table) {
+            $table->id();
+            $table->string('title', 255)->nullable();
+            $table->softDeletes();
+            $table->timestamps();
         });
     }
 
@@ -25,8 +28,6 @@ class AddFieldMenuToOrdersTable extends Migration
      */
     public function down()
     {
-        Schema::table('orders', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('tables');
     }
 }

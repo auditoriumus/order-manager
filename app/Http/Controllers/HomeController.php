@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\Orders\TotalPriceFromOrderService;
 use Illuminate\Http\Request;
 use App\Services\Orders\GetAllOrdersService;
 use Illuminate\Support\Facades\View;
@@ -16,9 +17,16 @@ class HomeController extends Controller
      */
     public function __invoke(Request $request)
     {
+        //получение id всех заказов
+        $ids = GetAllOrdersService::getAllOrders(true);
+
+        //получение и установка общей суммы заказа
+        TotalPriceFromOrderService::countTotalPriceFromOrderById($ids);
+
         View::share([
             'orders' => GetAllOrdersService::getAllOrders()
         ]);
+
         return view('welcome');
     }
 }

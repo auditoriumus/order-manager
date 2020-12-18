@@ -14,37 +14,48 @@ class OrderSeeder extends Seeder
      */
     public function run()
     {
-        $menu = [
+        $menu = json_encode([
             [
-                'coca-cola 0.3' => 1,
+                'good' => 'coca-cola 0.3',
+                'count' => 1,
                 'price' => 200
             ],
             [
-                'fanta 0.3' => 2,
+                'good' => 'fanta 0.3',
+                'count' => 2,
                 'price' => 400
             ],
             [
-                'Кальян' => 2,
-                'price' => 1600
+                'good' => 'Кальян',
+                'count' => 1,
+                'price' => 800
             ]
-        ];
+        ], JSON_FORCE_OBJECT);
 
         $data = [
             [
                 'table_id' => rand(1, 6),
-                'menu' => json_encode($menu)
+                'user_id' => rand(1, 100),
+                'menu' => $menu,
+                'created_at' => now(),
             ],
             [
                 'table_id' => rand(1, 6),
-                'menu' => json_encode($menu)
+                'user_id' => rand(1, 100),
+                'menu' => $menu,
+                'created_at' => now(),
             ],
             [
                 'table_id' => rand(1, 6),
-                'menu' => json_encode($menu)
+                'user_id' => rand(1, 100),
+                'menu' => $menu,
+                'created_at' => now(),
             ],
             [
-                'table_id' => 1,
-                'menu' => json_encode($menu)
+                'table_id' => rand(1, 6),
+                'user_id' => 101,
+                'menu' => $menu,
+                'created_at' => now(),
             ]
         ];
 
