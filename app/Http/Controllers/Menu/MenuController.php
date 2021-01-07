@@ -1,18 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\Orders;
+namespace App\Http\Controllers\Menu;
 
 use App\Http\Controllers\Controller;
-use App\Services\Categories\GetAllCategoriesService;
-use App\Services\Menu\ChangeMenuService;
+use App\Models\Menu;
 use App\Services\Menu\GetMenuByCategoryIdService;
-use App\Services\Menu\GetMenuByOrderIdService;
-use App\Services\Orders\DeleteOrderService;
-use App\Services\Orders\FindOrderByIdService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\View;
 
-class OrderControler extends Controller
+class MenuController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -21,7 +16,7 @@ class OrderControler extends Controller
      */
     public function index()
     {
-        //
+
     }
 
     /**
@@ -53,7 +48,7 @@ class OrderControler extends Controller
      */
     public function show($id)
     {
-        return json_encode((array) GetMenuByOrderIdService::getMenuByOrderId($id));
+        return json_encode(GetMenuByCategoryIdService::getMenuByCategoryId($id));
     }
 
     /**
@@ -64,13 +59,7 @@ class OrderControler extends Controller
      */
     public function edit($id)
     {
-        $categories = GetAllCategoriesService::getAllCategories();
-        $order = FindOrderByIdService::findOrderById($id);
-        View::share([
-            'order' => $order,
-            'categories' => $categories,
-        ]);
-        return view('orders.edit');
+        //
     }
 
     /**
@@ -82,8 +71,7 @@ class OrderControler extends Controller
      */
     public function update(Request $request, $id)
     {
-        $menuItemId = $request->input('menuItemId');
-        return json_encode(ChangeMenuService::changeMenuByOrderId($id, $menuItemId));
+        //
     }
 
     /**
@@ -94,7 +82,6 @@ class OrderControler extends Controller
      */
     public function destroy($id)
     {
-        DeleteOrderService::deleteOrderById($id);
-        return redirect()->route('home');
+        //
     }
 }

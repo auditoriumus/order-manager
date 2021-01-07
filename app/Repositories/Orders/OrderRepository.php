@@ -12,9 +12,9 @@ class OrderRepository
         return Order::with(['user', 'table'])->get();
     }
 
-    public static function findOrderBuId($id)
+    public static function findOrderById($id)
     {
-        return Order::find($id);
+        return Order::findOrFail($id);
     }
 
     public static function setTotalprice(Order $order, int $price)

@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Menu;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -16,19 +17,10 @@ class OrderSeeder extends Seeder
     {
         $menu = json_encode([
             [
-                'good' => 'coca-cola 0.3',
+                'good' => 1,
                 'count' => 1,
-                'price' => 200
-            ],
-            [
-                'good' => 'fanta 0.3',
-                'count' => 2,
-                'price' => 400
-            ],
-            [
-                'good' => 'Кальян',
-                'count' => 1,
-                'price' => 800
+                'price' => 800,
+                'title' => Menu::find(1)->title
             ]
         ], JSON_FORCE_OBJECT);
 

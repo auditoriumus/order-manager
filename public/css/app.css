@@ -31429,6 +31429,10 @@ select {
   color: red;
 }
 
+.edit_frame {
+  min-height: 100vh;
+}
+
 @media (min-width: 640px) {
   .sm\:container {
     width: 100%;

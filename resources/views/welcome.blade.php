@@ -21,7 +21,7 @@
                             <tbody>
                                 @foreach($order->menu as $menuItem)
                                     <tr>
-                                        <th scope="row">{{ $menuItem->good }}</th>
+                                        <th scope="row">{{ $menuItem->title }}</th>
                                         <td>{{ $menuItem->count }}</td>
                                         <td>{{ $menuItem->price }}</td>
                                     </tr>

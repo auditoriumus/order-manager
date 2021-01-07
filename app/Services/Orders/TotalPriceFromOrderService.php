@@ -11,7 +11,7 @@ class TotalPriceFromOrderService
     public static function countTotalPriceFromOrderById($id)
     {
         if (is_int($id)) {
-            $order = OrderRepository::findOrderBuId($id);
+            $order = OrderRepository::findOrderById($id);
             $menu = $order->menu;
             $total = 0;
             foreach ($menu as $itemCost) {
@@ -20,7 +20,7 @@ class TotalPriceFromOrderService
             return OrderRepository::setTotalprice($order, $total);
         } elseif (is_array($id)) {
             foreach ($id as $idItem) {
-                $order = OrderRepository::findOrderBuId($idItem);
+                $order = OrderRepository::findOrderById($idItem);
                 $menu = $order->menu;
                 $total = 0;
                 foreach ($menu as $itemCost) {

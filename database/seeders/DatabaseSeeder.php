@@ -18,6 +18,8 @@ class DatabaseSeeder extends Seeder
         User::factory(100)->create();
         $this->call(TableSeeder::class);
         $this->call(UserSeeder::class);
+        $this->call(CategoriesSeeder::class);
+        $this->call(MenuSeeder::class);
         $this->call(OrderSeeder::class);
     }
 }

@@ -10,6 +10,8 @@ class Order extends Model
 {
     use HasFactory, SoftDeletes;
 
+    protected $fillable = ['menu'];
+
     protected $casts = [
         'created_at' => 'datetime',
         'menu' => 'object',

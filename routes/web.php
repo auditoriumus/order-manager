@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Orders\OrderControler;
+use App\Http\Controllers\Menu\MenuController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,7 +16,7 @@ use App\Http\Controllers\Orders\OrderControler;
 |
 */
 
-Route::get('/', HomeController::class);
+Route::get('/', HomeController::class)->name('home');
 
 Route::get('/profile', function () {
     return view('dashboard');
@@ -24,3 +25,7 @@ Route::get('/profile', function () {
 require __DIR__.'/auth.php';
 
 Route::resource('order', OrderControler::class);
+
+Route::resource('menu', MenuController::class);
+
+
