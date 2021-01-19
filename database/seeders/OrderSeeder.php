@@ -29,24 +29,28 @@ class OrderSeeder extends Seeder
                 'table_id' => rand(1, 6),
                 'user_id' => rand(1, 100),
                 'menu' => $menu,
+                'paytype_id' => 1,
                 'created_at' => now(),
             ],
             [
                 'table_id' => rand(1, 6),
                 'user_id' => rand(1, 100),
                 'menu' => $menu,
+                'paytype_id' => 1,
                 'created_at' => now(),
             ],
             [
                 'table_id' => rand(1, 6),
                 'user_id' => rand(1, 100),
                 'menu' => $menu,
+                'paytype_id' => 1,
                 'created_at' => now(),
             ],
             [
                 'table_id' => rand(1, 6),
                 'user_id' => 101,
                 'menu' => $menu,
+                'paytype_id' => 1,
                 'created_at' => now(),
             ]
         ];

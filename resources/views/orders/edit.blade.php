@@ -9,7 +9,9 @@
                 @foreach($order->menu as $menu)
                     <tr>
                         <td>{{ $menu->title }}</td>
+                        <td><button type="button" class="text-danger" id="deleteSelectedItem" data="{{ $order->id }}" onclick="addDeleteMenuItem(this)">-</button></td>
                         <td>{{ $menu->count }}</td>
+                        <td><button type="button" class="text-success" id="addSelectedItem" data="{{ $order->id }}" onclick="addDeleteMenuItem(this)">+</button></td>
                         <td>{{ $menu->price }}</td>
                     </tr>
                 @endforeach
@@ -50,7 +52,7 @@
                     document.getElementById('menu_items').innerHTML = '';
                     let innerHtml = '';
                     menu.forEach(function (item, i, arr) {
-                        innerHtml += '<button onclick="addMenuItem(this)" type="button" class="btn btn-primary btn-lg m-1 menu_element" data="' + item.id + '">'+ item.title +'</button>';
+                        innerHtml += '<button onclick="addDeleteMenuItem(this)" type="button" class="btn btn-primary btn-lg m-1 menu_element" data-action="addSelectedItem" data="' + item.id + '">'+ item.title + '<p class="small">' + item.price + '</p></button>';
                     })
                     document.getElementById('menu_items').innerHTML = innerHtml;
                 }
@@ -59,7 +61,7 @@
         }
 
         //функция добавляет НОВЫЙ элемент в меню заказа и вызывает функцию обновления списка меню в заказе
-        function addMenuItem(el) {
+        function addDeleteMenuItem(el) {
             let orderId = {{ $order->id }};
             const updateOrderRequest = new XMLHttpRequest();
             const updateOrderUrl = "/order/" + orderId;
@@ -70,12 +72,13 @@
 
             updateOrderRequest.addEventListener("readystatechange", () => {
                 if (updateOrderRequest.readyState === 4 && updateOrderRequest.status === 200) {
+                    //console.log(updateOrderRequest.responseText)
                     updateOrderList();
                 }
             });
 
             let menuItemId = el.getAttribute('data');
-            updateOrderRequest.send("menuItemId=" + menuItemId);
+            updateOrderRequest.send("menuItemId=" + menuItemId + "&action=" + el.getAttribute('data-action'));
         }
 
         // обновление списка меню в заказе
@@ -89,7 +92,7 @@
 
             listOrderRequest.addEventListener("readystatechange", () => {
                 if (listOrderRequest.readyState === 4 && listOrderRequest.status === 200) {
-                    menuList = JSON.parse(listOrderRequest.responseText);
+                    let menuList = JSON.parse(listOrderRequest.responseText);
 
                     document.getElementById('menu-list').innerHTML = '';
                     let innerHtml = '';
@@ -97,7 +100,9 @@
                     menuList.forEach(function (item, i, arr) {
                         innerHtml += '<tr>' +
                             '<td>' + item.title + '</td>' +
+                            '<td><button type="button" class="text-danger" data-action="deleteSelectedItem" data="' + item.good + '" onclick="addDeleteMenuItem(this)">-</button></td>' +
                             '<td>' + item.count + '</td>' +
+                            '<td><button type="button" class="text-success" data-action="addSelectedItem" data="' + item.good + '" onclick="addDeleteMenuItem(this)">+</button></td>' +
                             '<td>' + item.price + '</td>' +
                             '</tr>';
                     })

@@ -5,3 +5,13 @@
 .edit_frame {
     min-height: 100vh;
 }
+
+.disable_card {
+    background: #d4d8dd
+}
+
+.disable_link {
+    color: #999;
+    border-color: #999;
+    pointer-events: none;
+}

@@ -20,8 +20,19 @@ class CreateOrdersTable extends Migration
             $table->unsignedBigInteger('table_id')
                 ->nullable();
             $table->json('menu')->nullable();
+
+            $table->unsignedBigInteger('paytype_id')
+                ->nullable();
+
+            $table->boolean('payment_status')->default(false);
+
             $table->softDeletes();
             $table->timestamps();
+
+
+            $table->foreign('paytype_id')
+                ->references('id')
+                ->on('paytypes');
 
             $table->foreign('user_id')
                 ->references('id')

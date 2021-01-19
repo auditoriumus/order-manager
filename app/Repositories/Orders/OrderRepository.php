@@ -9,7 +9,7 @@ class OrderRepository
 {
     public static function getAllOrders()
     {
-        return Order::with(['user', 'table'])->get();
+        return Order::with(['user', 'table', 'paytype'])->get();
     }
 
     public static function findOrderById($id)

@@ -26,4 +26,8 @@ class Order extends Model
     {
         return $this->belongsTo(Table::class);
     }
+    public function paytype()
+    {
+        return $this->belongsTo(Paytype::class);
+    }
 }

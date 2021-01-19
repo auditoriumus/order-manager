@@ -7,6 +7,9 @@ use App\Services\Categories\GetAllCategoriesService;
 use App\Services\Menu\ChangeMenuService;
 use App\Services\Menu\GetMenuByCategoryIdService;
 use App\Services\Menu\GetMenuByOrderIdService;
+use App\Services\Orders\ChangeActivityStatusService;
+use App\Services\Orders\ChangePayTypeService;
+use App\Services\Orders\CheckActivityStatusByOrderIdService;
 use App\Services\Orders\DeleteOrderService;
 use App\Services\Orders\FindOrderByIdService;
 use Illuminate\Http\Request;
@@ -83,7 +86,13 @@ class OrderControler extends Controller
     public function update(Request $request, $id)
     {
         $menuItemId = $request->input('menuItemId');
-        return json_encode(ChangeMenuService::changeMenuByOrderId($id, $menuItemId));
+        $action = $request->input('action');
+
+        if ( $action == 'addSelectedItem' ) {
+            return json_encode(ChangeMenuService::addMenuItemByOrderId($id, $menuItemId));
+        } elseif ( $action == 'deleteSelectedItem' ) {
+            return json_encode(ChangeMenuService::deleteMenuItemByOrderId($id, $menuItemId));
+        }
     }
 
     /**
@@ -96,5 +105,20 @@ class OrderControler extends Controller
     {
         DeleteOrderService::deleteOrderById($id);
         return redirect()->route('home');
+    }
+
+    public function payTypeEdit($orderId, $typeId)
+    {
+        ChangePayTypeService::changePayType($orderId, $typeId);
+    }
+
+    public function changePaymentStatus($orderId, $statusId)
+    {
+        return ChangeActivityStatusService::changePaymentStatus($orderId, $statusId);
+    }
+
+    public function checkPaymentStatus($orderId)
+    {
+        return CheckActivityStatusByOrderIdService::checkPaymentStatusByOrderId($orderId);
     }
 }

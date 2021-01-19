@@ -9,7 +9,7 @@ use App\Repositories\Orders\OrderRepository;
 
 class ChangeMenuService
 {
-    public static function changeMenuByOrderId(int $orderId, int $menuItemId, bool $flag = true)
+    public static function addMenuItemByOrderId(int $orderId, int $menuItemId)
     {
         $menuItemTitle = MenuRepository::findMenuItemById($menuItemId)->title;
         $menuItemPrice = MenuRepository::findMenuItemById($menuItemId)->price;
@@ -43,6 +43,34 @@ class ChangeMenuService
         $tmpMenu =(object) $tmpMenu;
 
         //переносим временную копию в основной закза
+        $order->menu = $tmpMenu;
+        $order->update();
+
+        return $order->menu;
+    }
+
+
+    public static function deleteMenuItemByOrderId(int $orderId, int $menuItemId)
+    {
+        $order = OrderRepository::findOrderById($orderId);
+        $menuItemPrice = MenuRepository::findMenuItemById($menuItemId)->price;
+        //создаем временную копию меню заказа
+        $tmpMenu = $order->menu;
+        $tmpMenu = (array) $tmpMenu;
+
+        foreach ($tmpMenu as $key => $tmpItemMenu) {
+            if ($tmpItemMenu->good == $menuItemId) {
+                if ($tmpItemMenu->count != 1) {
+                    $tmpItemMenu->count -= 1;
+                    $tmpItemMenu->price -= $menuItemPrice;
+                } else {
+                    unset($tmpMenu[$key]);
+                }
+            }
+        }
+
+        $tmpMenu =(object) $tmpMenu;
+
         $order->menu = $tmpMenu;
         $order->update();
 

@@ -28,4 +28,9 @@ Route::resource('order', OrderControler::class);
 
 Route::resource('menu', MenuController::class);
 
+Route::put('/order/{orderId}/pay-type/{typeId}', [OrderControler::class, 'payTypeEdit']);
+Route::put('/order/{orderId}/payment-status/{status}', [OrderControler::class, 'changePaymentStatus']);
+
+Route::get('/order/check-payment-status/{id}', [OrderControler::class, 'checkPaymentStatus']);
+
 
