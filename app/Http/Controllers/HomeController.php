@@ -20,7 +20,6 @@ class HomeController extends Controller
     {
         //получение id всех заказов
         $ids = GetAllOrdersService::getAllOrders(true);
-
         //получение и установка общей суммы заказа
         TotalPriceFromOrderService::countTotalPriceFromOrderById($ids);
 

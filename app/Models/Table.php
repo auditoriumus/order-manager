@@ -9,9 +9,4 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Table extends Model
 {
     use HasFactory, SoftDeletes;
-
-    public function orders ()
-    {
-        return $this->hasMany(Order::class);
-    }
 }

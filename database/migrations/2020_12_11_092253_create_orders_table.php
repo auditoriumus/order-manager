@@ -19,10 +19,12 @@ class CreateOrdersTable extends Migration
                 ->nullable();
             $table->unsignedBigInteger('table_id')
                 ->nullable();
+            $table->string('table_title')->nullable();
             $table->json('menu')->nullable();
             $table->text('description')->nullable();
 
             $table->unsignedBigInteger('paytype_id')
+                ->default(1)
                 ->nullable();
 
             $table->boolean('payment_status')->default(false);
@@ -39,9 +41,9 @@ class CreateOrdersTable extends Migration
                 ->references('id')
                 ->on('users');
 
-            $table->foreign('table_id')
+            /*$table->foreign('table_id')
                 ->references('id')
-                ->on('tables');
+                ->on('tables');*/
 
             $table->unsignedInteger('total')->nullable();
         });

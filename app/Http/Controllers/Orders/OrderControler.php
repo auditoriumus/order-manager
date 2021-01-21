@@ -8,7 +8,9 @@ use App\Services\Menu\ChangeMenuService;
 use App\Services\Menu\GetMenuByCategoryIdService;
 use App\Services\Menu\GetMenuByOrderIdService;
 use App\Services\Orders\ChangeActivityStatusService;
+use App\Services\Orders\ChangeDescriptionService;
 use App\Services\Orders\ChangePayTypeService;
+use App\Services\Orders\ChangeTableService;
 use App\Services\Orders\CheckActivityStatusByOrderIdService;
 use App\Services\Orders\CreateNewOrderService;
 use App\Services\Orders\DeleteOrderService;
@@ -76,9 +78,11 @@ class OrderControler extends Controller
     {
         $categories = GetAllCategoriesService::getAllCategories();
         $order = FindOrderByIdService::findOrderById($id);
+        $tables = GetAllTablesService::getAllTables();
         View::share([
             'order' => $order,
             'categories' => $categories,
+            'tables' => $tables
         ]);
         return view('orders.edit');
     }
@@ -92,14 +96,9 @@ class OrderControler extends Controller
      */
     public function update(Request $request, $id)
     {
-        $menuItemId = $request->input('menuItemId');
-        $action = $request->input('action');
-
-        if ( $action == 'addSelectedItem' ) {
-            return json_encode(ChangeMenuService::addMenuItemByOrderId($id, $menuItemId));
-        } elseif ( $action == 'deleteSelectedItem' ) {
-            return json_encode(ChangeMenuService::deleteMenuItemByOrderId($id, $menuItemId));
-        }
+        ChangeDescriptionService::changeDescription($id, $request->input('description'));
+        ChangeTableService::changeTable($id, $request->input('table'));
+        return redirect()->route('order.edit', $id);
     }
 
     /**
@@ -127,5 +126,24 @@ class OrderControler extends Controller
     public function checkPaymentStatus($orderId)
     {
         return CheckActivityStatusByOrderIdService::checkPaymentStatusByOrderId($orderId);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function updateMenu(Request $request, $id)
+    {
+        $menuItemId = $request->input('menuItemId');
+        $action = $request->input('action');
+
+        if ( $action == 'addSelectedItem' ) {
+            return json_encode(ChangeMenuService::addMenuItemByOrderId($id, $menuItemId));
+        } elseif ( $action == 'deleteSelectedItem' ) {
+            return json_encode(ChangeMenuService::deleteMenuItemByOrderId($id, $menuItemId));
+        }
     }
 }

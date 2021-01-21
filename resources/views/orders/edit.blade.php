@@ -1,7 +1,28 @@
 @extends('layouts.app')
 
 @section('content')
-    <a href="{{ route('home') }}" class="btn btn-success">К заказам</a>
+    <div class="row">
+        <div class="col-2">
+            <a href="{{ route('home') }}" class="btn btn-success">К заказам</a>
+        </div>
+        <div class="col-5">
+                <form action="{{ route('order.update', $order->id) }}" method="post">
+                    @csrf
+                    @method('PUT')
+                    <div class="input-group">
+                        <button type="submit" class="btn btn-warning">Изменить</button>
+                        <input name="description" class="form-control" type="text" value="{{ $order->description }}">
+                        @if(sizeof($tables) > 0)
+                            <select class="form-select" id="table" name="table">
+                                @foreach($tables as $table)
+                                    <option value="{{ $table->id }}" @if($table->id == $order->table_id) selected @endif>{{ $table->title }}</option>
+                                @endforeach
+                            </select>
+                        @endif
+                    </div>
+                </form>
+        </div>
+    </div>
     <div class="row">
         <div class="order_list col-3 edit_frame m-1" style="border: 1px solid darkblue">
             <table class="table table-hover">
@@ -66,7 +87,7 @@
         function addDeleteMenuItem(el) {
             let orderId = {{ $order->id }};
             const updateOrderRequest = new XMLHttpRequest();
-            const updateOrderUrl = "/order/" + orderId;
+            const updateOrderUrl = "/order/" + orderId + "/update-menu";
             updateOrderRequest.open("PUT", updateOrderUrl, true);
             updateOrderRequest.setRequestHeader("X-CSRF-TOKEN", "{{ csrf_token() }}");
             updateOrderRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");

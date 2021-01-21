@@ -43,10 +43,7 @@ class ChangeMenuService
         $tmpMenu =(object) $tmpMenu;
 
         //переносим временную копию в основной закза
-        $order->menu = $tmpMenu;
-        $order->update();
-
-        return $order->menu;
+        return OrderRepository::updateOrderMenu($orderId, $tmpMenu);
     }
 
 
@@ -71,9 +68,6 @@ class ChangeMenuService
 
         $tmpMenu =(object) $tmpMenu;
 
-        $order->menu = $tmpMenu;
-        $order->update();
-
-        return $order->menu;
+        return OrderRepository::updateOrderMenu($orderId, $tmpMenu);
     }
 }

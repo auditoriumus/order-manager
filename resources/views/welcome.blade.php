@@ -23,7 +23,7 @@
                                 <button onclick="checkPaymentStatusByOrderId(this, {{ $order->id }})" type="button" class="btn @if($order->payment_status == 0)btn-outline-success">Оплатить@else btn-outline-secondary">Вернуть@endif</button>
                             </div>
                         </div>
-                        Заказ: {{ $order->id }} | {{ $order->table->title }}  | Сотрудник: {{ $order->user->name }}  | {{ $order->created_at }} |  {{ $order->description }}
+                        Заказ: {{ $order->id }} | {{ $order->table_title }}  | Сотрудник: {{ $order->user->name }}  | {{ $order->created_at }} |  {{ $order->description }}
                     </div>
                 </div>
                 <div class="card-body text-secondary">

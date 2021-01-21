@@ -3,7 +3,13 @@
 namespace App\Http\Controllers\Tables;
 
 use App\Http\Controllers\Controller;
+use App\Services\Tables\CreateNewTableService;
+use App\Services\Tables\DeleteTableService;
+use App\Services\Tables\FindTableByIdService;
+use App\Services\Tables\GetAllTablesService;
+use App\Services\Tables\UpdateTableService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\View;
 
 class TableController extends Controller
 {
@@ -14,7 +20,11 @@ class TableController extends Controller
      */
     public function index()
     {
-        //
+        $tables = GetAllTablesService::getAllTables();
+        View::share([
+            'tables' => $tables
+        ]);
+        return view('tables.list');
     }
 
     /**
@@ -24,7 +34,7 @@ class TableController extends Controller
      */
     public function create()
     {
-        //
+        return view('tables.create');
     }
 
     /**
@@ -35,7 +45,8 @@ class TableController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        CreateNewTableService::createNewTable($request->all());
+        return redirect()->route('table.index');
     }
 
     /**
@@ -57,7 +68,11 @@ class TableController extends Controller
      */
     public function edit($id)
     {
-        //
+        $tableItem = FindTableByIdService::findTableById($id);
+        View::share([
+           'tableItem' => $tableItem
+        ]);
+        return view('tables.create');
     }
 
     /**
@@ -69,7 +84,8 @@ class TableController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        UpdateTableService::updateTable($id, $request->all());
+        return redirect()->route('table.index');
     }
 
     /**
@@ -80,6 +96,7 @@ class TableController extends Controller
      */
     public function destroy($id)
     {
-        //
+        if (!DeleteTableService::deleteTable($id)) return redirect()->route('table.index')->withErrors('Сначала закройте заказ на этом столе');
+        return redirect()->route('table.index');
     }
 }

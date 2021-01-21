@@ -39,3 +39,5 @@ Route::put('/order/{orderId}/payment-status/{status}', [OrderControler::class, '
 
 Route::get('/order/check-payment-status/{id}', [OrderControler::class, 'checkPaymentStatus']);
 
+Route::put('/order/{orderId}/update-menu', [OrderControler::class, 'updateMenu']);
+

@@ -5,7 +5,8 @@
                 @auth
                     <a href="{{ route('home') }}" class="btn btn-outline-info m-1">Заказы</a>
                     <a href="{{ url('/profile') }}" class="btn btn-outline-info m-1">Профиль</a>
-                    <a href="{{ url('/menu') }}" class="btn btn-outline-info m-1">Настройки меню</a>
+                    <a href="{{ route('menu.index') }}" class="btn btn-outline-info m-1">Настройки меню</a>
+                    <a href="{{ route('table.index') }}" class="btn btn-outline-info m-1">Столы</a>
                     <form action="/logout" method="post">
                         @csrf
                         <button type="submit" class="btn btn-outline-info m-1">Выйти</button>
