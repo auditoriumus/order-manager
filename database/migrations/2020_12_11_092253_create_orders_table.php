@@ -20,6 +20,7 @@ class CreateOrdersTable extends Migration
             $table->unsignedBigInteger('table_id')
                 ->nullable();
             $table->json('menu')->nullable();
+            $table->text('description')->nullable();
 
             $table->unsignedBigInteger('paytype_id')
                 ->nullable();

@@ -6,15 +6,17 @@
         <div class="order_list col-3 edit_frame m-1" style="border: 1px solid darkblue">
             <table class="table table-hover">
                 <tbody id="menu-list">
-                @foreach($order->menu as $menu)
-                    <tr>
-                        <td>{{ $menu->title }}</td>
-                        <td><button type="button" class="text-danger" id="deleteSelectedItem" data="{{ $order->id }}" onclick="addDeleteMenuItem(this)">-</button></td>
-                        <td>{{ $menu->count }}</td>
-                        <td><button type="button" class="text-success" id="addSelectedItem" data="{{ $order->id }}" onclick="addDeleteMenuItem(this)">+</button></td>
-                        <td>{{ $menu->price }}</td>
-                    </tr>
-                @endforeach
+                @if(!empty($order->menu))
+                    @foreach($order->menu as $menu)
+                        <tr>
+                            <td>{{ $menu->title }}</td>
+                            <td><button type="button" class="text-danger" id="deleteSelectedItem" data="{{ $order->id }}" onclick="addDeleteMenuItem(this)">-</button></td>
+                            <td>{{ $menu->count }}</td>
+                            <td><button type="button" class="text-success" id="addSelectedItem" data="{{ $order->id }}" onclick="addDeleteMenuItem(this)">+</button></td>
+                            <td>{{ $menu->price }}</td>
+                        </tr>
+                    @endforeach
+                @endif
                 </tbody>
             </table>
         </div>

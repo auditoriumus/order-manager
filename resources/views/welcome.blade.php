@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
+    @if(Auth::user())<a href="{{ route('order.create') }}" class="btn btn-success">Создать заказ</a>@endif
     @if($orders)
         @foreach($orders as $order)
             <div class="card border-secondary m-3 item-card @if($order->payment_status == 1) disable_card @endif">
@@ -13,7 +14,7 @@
                                 <input type="hidden" name="_method" value="delete" />
                                 <button type="submit" class="btn btn-outline-danger delete-button" @if($order->payment_status == 1) disabled @endif>Удалить</button>
                             </form>
-                            <div name="select-pay-type" class="d-flex">
+                            <div id="select-pay-type" class="d-flex">
                                 <select @if($order->payment_status == 1) disabled @endif onchange="selectPayTypeFunction(this)" class="mr-1 pay-type-select" data-type="pay-type" data-order-id="{{ $order->id }}">
                                     @foreach($paytypes as $paytype)
                                         <option value="{{ $paytype->id }}" @if($paytype->id == $order->paytype_id) selected @endif>{{ $paytype->title }}</option>
@@ -22,7 +23,7 @@
                                 <button onclick="checkPaymentStatusByOrderId(this, {{ $order->id }})" type="button" class="btn @if($order->payment_status == 0)btn-outline-success">Оплатить@else btn-outline-secondary">Вернуть@endif</button>
                             </div>
                         </div>
-                        Заказ: {{ $order->id }} | {{ $order->table->title }}  | Сотрудник: {{ $order->user->name }}  | {{ $order->created_at }}
+                        Заказ: {{ $order->id }} | {{ $order->table->title }}  | Сотрудник: {{ $order->user->name }}  | {{ $order->created_at }} |  {{ $order->description }}
                     </div>
                 </div>
                 <div class="card-body text-secondary">

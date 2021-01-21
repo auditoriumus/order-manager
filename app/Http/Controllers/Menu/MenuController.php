@@ -3,9 +3,17 @@
 namespace App\Http\Controllers\Menu;
 
 use App\Http\Controllers\Controller;
-use App\Models\Menu;
+use App\Http\Requests\StoreCategoryRequest;
+use App\Http\Requests\StoreMenuItemRequest;
+use App\Services\Categories\GetAllCategoriesService;
+use App\Services\Menu\AddMenuItemService;
+use App\Services\Menu\DeleteMenuItemByIdService;
+use App\Services\Menu\FindMenuItemSevice;
+use App\Services\Menu\GetAllMenuService;
 use App\Services\Menu\GetMenuByCategoryIdService;
+use App\Services\Menu\UpdateMenuItemService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\View;
 
 class MenuController extends Controller
 {
@@ -16,7 +24,11 @@ class MenuController extends Controller
      */
     public function index()
     {
-
+        $menuWithCategories = GetAllCategoriesService::getAllCategories();
+        View::share([
+            'menuWithCategories' => $menuWithCategories
+        ]);
+        return view('menus.list');
     }
 
     /**
@@ -26,7 +38,11 @@ class MenuController extends Controller
      */
     public function create()
     {
-        //
+        $categories = GetAllCategoriesService::getAllCategories();
+        View::share([
+            'categories' => $categories
+        ]);
+        return view('menus.create');
     }
 
     /**
@@ -35,9 +51,15 @@ class MenuController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreMenuItemRequest $request)
     {
-        //
+        if (AddMenuItemService::addMenuItem($request->all()) === '23000' ) {
+            return redirect()
+                ->route('menu.create')
+                ->withErrors(['Такая позиция уже существует'])
+                ->withInput();
+        };
+        return redirect()->route('menu.index');
     }
 
     /**
@@ -59,7 +81,14 @@ class MenuController extends Controller
      */
     public function edit($id)
     {
-        //
+        $menuItem = FindMenuItemSevice::findMenuItem($id);
+        $categories = GetAllCategoriesService::getAllCategories();
+        View::share([
+            'categories' => $categories,
+            'menuItem' => $menuItem
+        ]);
+        return view('menus.create');
+        return view('menus.create');
     }
 
     /**
@@ -69,9 +98,10 @@ class MenuController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(StoreCategoryRequest $request, $id)
     {
-        //
+        UpdateMenuItemService::updateMenuItem($id, $request->all());
+        return redirect()->route('menu.index');
     }
 
     /**
@@ -82,6 +112,7 @@ class MenuController extends Controller
      */
     public function destroy($id)
     {
-        //
+        DeleteMenuItemByIdService::deleteMenuItemById($id);
+        return redirect()->route('menu.index');
     }
 }

@@ -10,6 +10,7 @@ class GetAllOrdersService
     {
         if ($idList) {
             $ordersArray = OrderRepository::getAllOrders()->toArray();
+            $ids = [];
             foreach ($ordersArray as $order) {
                 $ids[] = $order['id'];
             }

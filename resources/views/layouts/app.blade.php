@@ -18,6 +18,7 @@
 <body>
 <header>
     @include('include.header')
+    @include('include.errors')
 </header>
 <main>
     <div class="container p-3">

@@ -10,8 +10,10 @@ use App\Services\Menu\GetMenuByOrderIdService;
 use App\Services\Orders\ChangeActivityStatusService;
 use App\Services\Orders\ChangePayTypeService;
 use App\Services\Orders\CheckActivityStatusByOrderIdService;
+use App\Services\Orders\CreateNewOrderService;
 use App\Services\Orders\DeleteOrderService;
 use App\Services\Orders\FindOrderByIdService;
+use App\Services\Tables\GetAllTablesService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\View;
 
@@ -34,7 +36,11 @@ class OrderControler extends Controller
      */
     public function create()
     {
-        //
+        $tables = GetAllTablesService::getAllTables();
+        View::share([
+           'tables' => $tables
+        ]);
+        return view('orders.create');
     }
 
     /**
@@ -45,7 +51,8 @@ class OrderControler extends Controller
      */
     public function store(Request $request)
     {
-        //
+        CreateNewOrderService::createNewOrder($request->all());
+        return redirect()->route('home');
     }
 
     /**

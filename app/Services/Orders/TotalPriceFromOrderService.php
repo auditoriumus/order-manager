@@ -23,9 +23,14 @@ class TotalPriceFromOrderService
                 $order = OrderRepository::findOrderById($idItem);
                 $menu = $order->menu;
                 $total = 0;
-                foreach ($menu as $itemCost) {
-                    $total += $itemCost->price;
-                };
+                if ( !empty($menu) ) {
+                    foreach ($menu as $itemCost) {
+                        $total += $itemCost->price;
+                    };
+                } else {
+                    break;
+                }
+
                 OrderRepository::setTotalprice($order, $total);
             }
         }
