@@ -7,6 +7,7 @@
                     <a href="{{ url('/profile') }}" class="btn btn-outline-info m-1">Профиль</a>
                     <a href="{{ route('menu.index') }}" class="btn btn-outline-info m-1">Настройки меню</a>
                     <a href="{{ route('table.index') }}" class="btn btn-outline-info m-1">Столы</a>
+                    <a href="{{ route('stock.index') }}" class="btn btn-outline-info m-1">Склад</a>
                     <form action="/logout" method="post">
                         @csrf
                         <button type="submit" class="btn btn-outline-info m-1">Выйти</button>

@@ -11,6 +11,7 @@ class AddMenuItemService
 {
     public static function addMenuItem($data)
     {
+        $data = ConversionStockMenuService::conversionStockMenu($data);
         GetCategoryByIdService::getCategoryById($data['category']);
         return MenuRepository::addMenuItem($data);
     }

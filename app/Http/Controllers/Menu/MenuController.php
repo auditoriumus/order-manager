@@ -12,6 +12,7 @@ use App\Services\Menu\FindMenuItemSevice;
 use App\Services\Menu\GetAllMenuService;
 use App\Services\Menu\GetMenuByCategoryIdService;
 use App\Services\Menu\UpdateMenuItemService;
+use App\Services\Stocks\GetAllStockItemsService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\View;
 
@@ -38,18 +39,18 @@ class MenuController extends Controller
      */
     public function create()
     {
+        $stockItems = GetAllStockItemsService::getAllStockItems();
         $categories = GetAllCategoriesService::getAllCategories();
         View::share([
-            'categories' => $categories
+            'categories' => $categories,
+            'stockItems' => $stockItems
         ]);
         return view('menus.create');
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param StoreMenuItemRequest $request
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function store(StoreMenuItemRequest $request)
     {
@@ -81,11 +82,13 @@ class MenuController extends Controller
      */
     public function edit($id)
     {
+        $stockItems = GetAllStockItemsService::getAllStockItems();
         $menuItem = FindMenuItemSevice::findMenuItem($id);
         $categories = GetAllCategoriesService::getAllCategories();
         View::share([
             'categories' => $categories,
-            'menuItem' => $menuItem
+            'menuItem' => $menuItem,
+            'stockItems' => $stockItems
         ]);
         return view('menus.create');
         return view('menus.create');

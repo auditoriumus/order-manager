@@ -10,6 +10,6 @@
             <label for="title" class="form-label">Название</label>
             <input type="text" class="form-control" id="title" name="title" value="@if(isset($tableItem)){{$tableItem->title}}@else{{ old('title') }}@endif">
         </div>
-        <button type="submit" class="btn btn-primary">Добавить</button>
+        <button type="submit" class="btn btn-primary">@if(isset($tableItem))Изменить@elseДобавить@endif</button>
     </form>
 @endsection
