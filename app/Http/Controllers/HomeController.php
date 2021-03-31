@@ -28,6 +28,6 @@ class HomeController extends Controller
             'paytypes' => GetAllPayTypesService::getAllPayTypes(),
         ]);
 
-        return view('welcome');
+        return view('home');
     }
 }
