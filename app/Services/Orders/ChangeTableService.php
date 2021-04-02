@@ -12,6 +12,8 @@ class ChangeTableService
     public static function changeTable($id, $tableId)
     {
         $table = TableRepository::findTableById($tableId);
-        return OrderRepository::changeTable($id, $table);
+        if (!empty($table)) {
+            return OrderRepository::changeTable($id, $table);
+        }
     }
 }

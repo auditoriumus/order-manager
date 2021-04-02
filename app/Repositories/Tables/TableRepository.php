@@ -15,7 +15,7 @@ class TableRepository
 
     public static function findTableById($id)
     {
-        return Table::findOrFail($id);
+        return Table::find($id);
     }
 
     public static function updateTable($id, $data)
