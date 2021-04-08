@@ -3,7 +3,12 @@
 namespace App\Http\Controllers\Stock;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreStockRequest;
+use App\Services\Stocks\DestroyStockItemServiceById;
+use App\Services\Stocks\AddNewStockItemService;
 use App\Services\Stocks\GetAllStockItemsService;
+use App\Services\Stocks\GetStockByIdService;
+use App\Services\Stocks\UpdateStockItemByIdService;
 use Illuminate\Http\Request;
 use \Illuminate\Support\Facades\View;
 
@@ -30,7 +35,7 @@ class StockControler extends Controller
      */
     public function create()
     {
-        dd(__METHOD__);
+        return view('stock.create');
     }
 
     /**
@@ -39,9 +44,10 @@ class StockControler extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreStockRequest $request)
     {
-        dd(__METHOD__);
+        AddNewStockItemService::addNewStockItem($request->all());
+        return redirect()->route('stock.index');
     }
 
     /**
@@ -63,7 +69,11 @@ class StockControler extends Controller
      */
     public function edit($id)
     {
-        dd(__METHOD__);
+        $currentStock = GetStockByIdService::getStockById($id);
+        View::share([
+            'currentStock' => $currentStock
+        ]);
+        return view('stock.create');
     }
 
     /**
@@ -73,9 +83,11 @@ class StockControler extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(StoreStockRequest $request, $id)
     {
-        dd(__METHOD__);
+        $data = $request->all();
+        UpdateStockItemByIdService::updateStockItemById($id, $data);
+        return redirect()->route('stock.index');
     }
 
     /**
@@ -86,7 +98,8 @@ class StockControler extends Controller
      */
     public function destroy($id)
     {
-        dd(__METHOD__);
+        DestroyStockItemServiceById::destroyStockItemByIdService($id);
+        return redirect()->route('stock.index');
     }
 
     /**

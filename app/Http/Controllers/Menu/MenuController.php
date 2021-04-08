@@ -91,7 +91,6 @@ class MenuController extends Controller
             'stockItems' => $stockItems
         ]);
         return view('menus.create');
-        return view('menus.create');
     }
 
     /**
